@@ -1,0 +1,13 @@
+[Unit]
+Description=PostgreSQL service
+After=docker.service
+Requires=docker.service
+
+[Service]
+ExecStartPre=-/usr/bin/docker kill %n
+ExecStartPre=-/usr/bin/docker rm %n
+ExecStart=/usr/bin/docker run --name %n -p 5432:5432 dawi2332/postgres
+ExecStop=/usr/bin/docker stop %n
+
+[X-Fleet]
+Conflicts=%n
